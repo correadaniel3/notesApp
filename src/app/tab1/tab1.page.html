@@ -1,0 +1,38 @@
+
+<ion-content>
+
+  <ion-searchbar [(ngModel)]="searchTerm"  (ionChange)="search()" animated></ion-searchbar>
+
+  <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+    <ion-item-sliding *ngFor="let note of filteredNotes">
+      <ion-item-options side="start">
+        <ion-item-option color="warning" (click)="archive(note)">Archivar</ion-item-option>
+      </ion-item-options>
+
+        <ion-item>
+          <ion-label text-wrap>
+            <h2>{{note.title}}</h2>
+            <ion-text>
+              <p>{{note.description}}</p>
+            </ion-text>
+            <ion-text color="secondary">
+              <p>{{note.reminder}}</p>
+            </ion-text>
+          </ion-label>
+          <ion-reorder slot="end"></ion-reorder>
+        </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteItem(note)">Eliminar</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-reorder-group>
+
+  <ion-button expand="full" (click)="clearStorage()" >Borrar Todas las notas</ion-button>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="createNote()">
+      <ion-fab-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+</ion-content>

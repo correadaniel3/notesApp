@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="addItem()" >Guardar</ion-button>
+    </ion-buttons>
+    <ion-title>Nueva Nota</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-input placeholder="Titulo" [(ngModel)]="newNote.title" ></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-textarea placeholder="Descripcion" [(ngModel)]="newNote.description"></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-datetime placeholder="Recordatorio"
+            displayFormat="MMM DD, YYYY HH:mm"
+            max="2025"
+            [(ngModel)]="newNote.reminder"></ion-datetime>
+  </ion-item>
+
+</ion-content>
