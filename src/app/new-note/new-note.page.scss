@@ -1,0 +1,13 @@
+.create-note-wrp{
+  padding:0 20px;
+  height: 80%;
+  .note-input{
+    &.note-title{
+      --padding-top: 30px;
+      font-size: 1.5em;
+    }
+    &.note-description{
+      height: 60%;
+    }
+  }
+}

@@ -11,13 +11,11 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-input placeholder="Titulo" [(ngModel)]="newNote.title" ></ion-input>
-  </ion-item>
+  <div class="create-note-wrp">
+    <ion-input class="note-input note-title" placeholder="Titulo" [(ngModel)]="newNote.title" ></ion-input>
+    <ion-textarea class="note-input note-description" rows="20" placeholder="Descripcion ..." [(ngModel)]="newNote.description"></ion-textarea>
+  </div>
 
-  <ion-item>
-    <ion-textarea placeholder="Descripcion" [(ngModel)]="newNote.description"></ion-textarea>
-  </ion-item>
 
   <ion-item>
     <ion-datetime placeholder="Recordatorio"
@@ -25,5 +23,23 @@
             max="2025"
             [(ngModel)]="newNote.reminder"></ion-datetime>
   </ion-item>
+
+
+
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button (click)="openPicker()">
+        <ion-icon name="alarm"></ion-icon>
+        <ion-label>Recordatorio</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button>
+        <ion-icon name="bookmark"></ion-icon>
+        <ion-label>Etiqueta</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+
+
 
 </ion-content>

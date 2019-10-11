@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {StorageService, Note} from '../services/storage.service';
 import {DataService} from '../services/data.service';
 import {Platform, ToastController} from '@ionic/angular';
@@ -8,7 +8,7 @@ import {Platform, ToastController} from '@ionic/angular';
     templateUrl: 'tab2.page.html',
     styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page{
 
     notes: Note[] = [];
 
@@ -18,9 +18,11 @@ export class Tab2Page {
 
     constructor(private storageService: StorageService, private plt: Platform, private dataService: DataService,
                 private toastController: ToastController) {
-        this.plt.ready().then(() => {
             this.loadItems();
-        });
+    }
+
+    ionViewDidEnter() {
+        this.loadItems();
     }
 
     doReorder(ev: any) {

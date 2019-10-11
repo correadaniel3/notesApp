@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StorageService, Note} from '../services/storage.service';
 import {DataService} from '../services/data.service';
 import {Platform, ToastController, NavController} from '@ionic/angular';
@@ -9,7 +9,7 @@ import {Platform, ToastController, NavController} from '@ionic/angular';
     templateUrl: 'tab1.page.html',
     styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page  {
     notes: Note[] = [];
     searchTerm = '';
     filteredNotes: Note[] = [];
@@ -18,10 +18,13 @@ export class Tab1Page {
                 private dataService: DataService,
                 private toastController: ToastController,
                 private navController: NavController) {
-        this.plt.ready().then(() => {
-            this.loadItems();
-        });
     }
+
+
+    ionViewDidEnter() {
+        this.loadItems();
+    }
+
 
     doReorder(ev: any) {
         this.notes = ev.detail.complete(this.notes);
