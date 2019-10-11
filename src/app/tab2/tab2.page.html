@@ -16,7 +16,7 @@
             <p>{{note.description}}</p>
           </ion-text>
           <ion-text color="secondary">
-            <p>{{note.reminder}}</p>
+            <p>{{note.reminder | date:'yyyy MMMM dd H:mm:ss'}}</p>
           </ion-text>
         </ion-label>
         <ion-reorder slot="end"></ion-reorder>

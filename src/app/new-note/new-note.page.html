@@ -1,29 +1,46 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="addItem()" >Guardar</ion-button>
-    </ion-buttons>
-    <ion-title>Nueva Nota</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="addItem()">Guardar</ion-button>
+        </ion-buttons>
+        <ion-title>Nueva Nota</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-input placeholder="Titulo" [(ngModel)]="newNote.title" ></ion-input>
-  </ion-item>
+    <div class="create-note-wrp">
+        <div id="note-date-reminder" class="note-date-reminder" [hidden]="showReminder()">
+            <ion-item class="note-date-reminder-item">
+                <ion-icon name="alarm"></ion-icon>
+                <ion-datetime id="note-reminder" class="note-reminder" placeholder="Recordatorio"
+                              displayFormat="MMM DD YYYY HH:mm"
+                              max="2025"
+                              [min]="date"
+                              [(ngModel)]="newNote.reminder"></ion-datetime>
+            </ion-item>
+        </div>
+        <ion-input class="note-input note-title" placeholder="Titulo" [(ngModel)]="newNote.title"></ion-input>
+        <ion-textarea class="note-input note-description" rows="20" placeholder="Descripcion ..."
+                      [(ngModel)]="newNote.description"></ion-textarea>
+    </div>
 
-  <ion-item>
-    <ion-textarea placeholder="Descripcion" [(ngModel)]="newNote.description"></ion-textarea>
-  </ion-item>
 
-  <ion-item>
-    <ion-datetime placeholder="Recordatorio"
-            displayFormat="MMM DD, YYYY HH:mm"
-            max="2025"
-            [(ngModel)]="newNote.reminder"></ion-datetime>
-  </ion-item>
+    <ion-tabs>
+        <ion-tab-bar slot="bottom">
+            <ion-tab-button (click)="showPicker()">
+                <ion-icon name="alarm"></ion-icon>
+                <ion-label>Recordatorio</ion-label>
+            </ion-tab-button>
+
+            <ion-tab-button>
+                <ion-icon name="bookmark"></ion-icon>
+                <ion-label>Etiqueta</ion-label>
+            </ion-tab-button>
+        </ion-tab-bar>
+    </ion-tabs>
+
 
 </ion-content>

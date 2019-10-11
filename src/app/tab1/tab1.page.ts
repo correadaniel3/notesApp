@@ -23,6 +23,10 @@ export class Tab1Page {
         });
     }
 
+    ionViewDidEnter() {
+        this.loadItems();
+    }
+
     doReorder(ev: any) {
         ev.detail.complete(this.notes);
         this.notes = ev.detail.complete(this.notes);

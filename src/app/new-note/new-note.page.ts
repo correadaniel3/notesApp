@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Note, StorageService} from '../services/storage.service';
 import {NavController, Platform, ToastController} from '@ionic/angular';
+import {strings} from '@angular-devkit/core';
+import {utils} from 'protractor';
 
 @Component({
     selector: 'app-new-note',
@@ -10,11 +12,13 @@ import {NavController, Platform, ToastController} from '@ionic/angular';
 export class NewNotePage implements OnInit {
 
     newNote: Note = {} as Note;
+    date = new Date().toISOString();
 
     constructor(private storageService: StorageService,
                 private plt: Platform,
                 private toastController: ToastController,
                 private navController: NavController) {
+        this.showReminder();
     }
 
     ngOnInit() {
@@ -39,4 +43,11 @@ export class NewNotePage implements OnInit {
         toast.present();
     }
 
+    showReminder() {
+        return this.newNote.reminder == null;
+    }
+
+    showPicker() {
+        document.getElementById('note-reminder').click();
+    }
 }
