@@ -18,6 +18,9 @@
             <ion-text color="secondary">
               <p>{{note.reminder | date:'yyyy MMMM dd H:mm:ss'}}</p>
             </ion-text>
+            <ion-chip *ngIf="note.label!=null" [style.background-color]="getLabel(note)">
+              <ion-label>Etiqueta</ion-label>
+            </ion-chip>
           </ion-label>
           <ion-reorder slot="end"></ion-reorder>
         </ion-item>
@@ -28,7 +31,8 @@
     </ion-item-sliding>
   </ion-reorder-group>
 
-  <ion-button expand="full" (click)="clearStorage()" >Borrar Todas las notas</ion-button>
+  <!--TODO: Eliminar este boton-->
+  <!--<ion-button expand="full" (click)="clearStorage()" >Borrar Todas las notas</ion-button>-->
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="createNote()">
       <ion-fab-button>

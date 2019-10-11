@@ -11,6 +11,15 @@
 </ion-header>
 
 <ion-content>
+  <ion-item [hidden]="true">
+    <ion-label>Etiqueta</ion-label>
+    <ion-select id="note-label" value="brown" type="alert" okText="Ok" cancelText="Cancelar" [(ngModel)]="newNote.label">
+      <ion-select-option value="#9dd6ca">Verde</ion-select-option>
+      <ion-select-option value="#b30417">Rojo</ion-select-option>
+      <ion-select-option value="#67a3db">Azul</ion-select-option>
+      <ion-select-option value="#733e2f">Marron</ion-select-option>
+    </ion-select>
+  </ion-item>
     <div class="create-note-wrp">
         <div id="note-date-reminder" class="note-date-reminder" [hidden]="showReminder()">
             <ion-item class="note-date-reminder-item">
@@ -35,9 +44,9 @@
                 <ion-label>Recordatorio</ion-label>
             </ion-tab-button>
 
-            <ion-tab-button>
-                <ion-icon name="bookmark"></ion-icon>
-                <ion-label>Etiqueta</ion-label>
+            <ion-tab-button (click)="showColorPicker()">
+                <ion-icon [style.color]="getLabel()" name="bookmark"></ion-icon>
+                <ion-label [style.color]="getLabel()">Etiqueta</ion-label>
             </ion-tab-button>
         </ion-tab-bar>
     </ion-tabs>

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {StorageService, Note} from '../services/storage.service';
 import {DataService} from '../services/data.service';
 import {Platform, ToastController, NavController} from '@ionic/angular';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class Tab1Page {
     constructor(private storageService: StorageService,
                 private plt: Platform,
                 private dataService: DataService,
+                private sanitizer: DomSanitizer,
                 private toastController: ToastController,
                 private navController: NavController) {
         this.plt.ready().then(() => {
@@ -78,6 +80,10 @@ export class Tab1Page {
         } else {
             this.filteredNotes = this.notes;
         }
+    }
+
+    getLabel(note) {
+        return this.sanitizer.bypassSecurityTrustStyle(note.label);
     }
 
 }

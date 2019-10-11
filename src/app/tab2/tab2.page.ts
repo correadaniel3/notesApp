@@ -2,6 +2,8 @@ import {Component, ViewChild} from '@angular/core';
 import {StorageService, Note} from '../services/storage.service';
 import {DataService} from '../services/data.service';
 import {Platform, ToastController} from '@ionic/angular';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+
 
 @Component({
     selector: 'app-tab2',
@@ -17,6 +19,7 @@ export class Tab2Page {
 
 
     constructor(private storageService: StorageService, private plt: Platform, private dataService: DataService,
+                private sanitizer: DomSanitizer,
                 private toastController: ToastController) {
         this.plt.ready().then(() => {
             this.loadItems();
@@ -69,6 +72,10 @@ export class Tab2Page {
         } else {
             this.filteredNotes = this.notes;
         }
+    }
+
+    getLabel(note) {
+        return this.sanitizer.bypassSecurityTrustStyle(note.label);
     }
 
 }

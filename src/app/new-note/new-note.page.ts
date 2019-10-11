@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Note, StorageService} from '../services/storage.service';
 import {NavController, Platform, ToastController} from '@ionic/angular';
-import {strings} from '@angular-devkit/core';
-import {utils} from 'protractor';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-new-note',
@@ -17,6 +16,7 @@ export class NewNotePage implements OnInit {
     constructor(private storageService: StorageService,
                 private plt: Platform,
                 private toastController: ToastController,
+                private sanitizer: DomSanitizer,
                 private navController: NavController) {
         this.showReminder();
     }
@@ -49,5 +49,12 @@ export class NewNotePage implements OnInit {
 
     showPicker() {
         document.getElementById('note-reminder').click();
+    }
+
+    showColorPicker() {
+        document.getElementById('note-label').click();
+    }
+    getLabel() {
+        return this.sanitizer.bypassSecurityTrustStyle(this.newNote.label);
     }
 }
