@@ -24,6 +24,7 @@ export class Tab1Page {
     }
 
     doReorder(ev: any) {
+        ev.detail.complete(this.notes);
         this.notes = ev.detail.complete(this.notes);
     }
 
