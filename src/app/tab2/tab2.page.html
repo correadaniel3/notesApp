@@ -1,16 +1,16 @@
 
 
 <ion-content>
-  <ion-searchbar showCancelButton="focus"></ion-searchbar>
+  <ion-searchbar  [(ngModel)]="searchTerm"  (ionChange)="search()" animated></ion-searchbar>
 
   <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
-    <ion-item-sliding *ngFor="let note of notes">
+    <ion-item-sliding *ngFor="let note of filteredNotes">
       <ion-item-options side="start">
         <ion-item-option color="success" (click)="unArchive(note)">Listar</ion-item-option>
       </ion-item-options>
 
-      <ion-item>
-        <ion-label text-wrap>
+      <ion-item (click)="editNote(note)">
+        <ion-label class="ion-text-wrap">
           <h2>{{note.title}}</h2>
           <ion-text>
             <p>{{note.description}}</p>

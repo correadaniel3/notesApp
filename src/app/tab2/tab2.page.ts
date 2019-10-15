@@ -1,8 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
 import {StorageService, Note} from '../services/storage.service';
 import {DataService} from '../services/data.service';
-import {Platform, ToastController} from '@ionic/angular';
+import {NavController, Platform, ToastController} from '@ionic/angular';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import {TabsPage} from '../tabs/tabs.page';
+import {EditNoteService} from '../providers/edit.provider';
 
 
 @Component({
@@ -10,7 +12,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     templateUrl: 'tab2.page.html',
     styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page extends TabsPage {
 
     notes: Note[] = [];
 
@@ -20,7 +22,10 @@ export class Tab2Page {
 
     constructor(private storageService: StorageService, private plt: Platform, private dataService: DataService,
                 private sanitizer: DomSanitizer,
+                editNoteService: EditNoteService,
+                navController: NavController,
                 private toastController: ToastController) {
+        super(navController, editNoteService);
         this.plt.ready().then(() => {
             this.loadItems();
         });
@@ -35,14 +40,6 @@ export class Tab2Page {
         this.notes = ev.detail.complete(this.notes);
     }
 
-    // Helper
-    async showToast(msg) {
-        const toast = await this.toastController.create({
-            message: msg,
-            duration: 2000
-        });
-        toast.present();
-    }
 
     unArchive(note: Note) {
         note.archived = false;
@@ -59,7 +56,6 @@ export class Tab2Page {
 
     deleteItem(note: Note) {
         this.storageService.deleteItem(note.id).then(item => {
-            this.showToast('Item removed!');
             this.loadItems();
         });
     }

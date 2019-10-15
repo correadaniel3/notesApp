@@ -9,8 +9,8 @@
         <ion-item-option color="warning" (click)="archive(note)">Archivar</ion-item-option>
       </ion-item-options>
 
-        <ion-item>
-          <ion-label text-wrap>
+        <ion-item (click)="editNote(note)">
+          <ion-label class="ion-text-wrap">
             <h2>{{note.title}}</h2>
             <ion-text>
               <p>{{note.description}}</p>

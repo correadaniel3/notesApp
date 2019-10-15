@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Note, StorageService} from '../services/storage.service';
 import {NavController, Platform, ToastController} from '@ionic/angular';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import {EditNoteService} from '../providers/edit.provider';
 
 @Component({
     selector: 'app-new-note',
@@ -12,16 +13,32 @@ export class NewNotePage implements OnInit {
 
     newNote: Note = {} as Note;
     date = new Date().toISOString();
+    title = '';
 
     constructor(private storageService: StorageService,
                 private plt: Platform,
                 private toastController: ToastController,
                 private sanitizer: DomSanitizer,
+                private editNoteService: EditNoteService,
                 private navController: NavController) {
         this.showReminder();
+        if ( this.editNoteService.noteToEdit != null) {
+            this.title = 'Editar Nota';
+            this.newNote = this.editNoteService.noteToEdit;
+        } else {
+            this.title = 'Nueva Nota';
+        }
     }
 
     ngOnInit() {
+    }
+
+    addOrUpdateItem() {
+        if (this.editNoteService.noteToEdit == null) {
+            this.addItem();
+        } else {
+            this.updateItem();
+        }
     }
 
     addItem() {
@@ -29,18 +46,20 @@ export class NewNotePage implements OnInit {
         this.newNote.archived = false;
         this.storageService.addItem(this.newNote).then(note => {
             this.newNote = {} as Note;
-            this.showToast('Note added!');
             this.navController.navigateForward('tabs');
         });
     }
 
-    // Helper
-    async showToast(msg) {
-        const toast = await this.toastController.create({
-            message: msg,
-            duration: 2000
+    updateItem() {
+        this.storageService.updateItem(this.newNote).then(note => {
+            this.newNote = {} as Note;
+            this.navController.navigateForward('tabs');
         });
-        toast.present();
+    }
+
+
+    ionViewDidLeave() {
+        this.editNoteService.noteToEdit = null;
     }
 
     showReminder() {

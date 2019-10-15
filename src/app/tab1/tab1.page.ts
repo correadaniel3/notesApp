@@ -3,6 +3,8 @@ import {StorageService, Note} from '../services/storage.service';
 import {DataService} from '../services/data.service';
 import {Platform, ToastController, NavController} from '@ionic/angular';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import {TabsPage} from '../tabs/tabs.page';
+import {EditNoteService} from '../providers/edit.provider';
 
 
 @Component({
@@ -10,7 +12,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     templateUrl: 'tab1.page.html',
     styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page extends TabsPage {
     notes: Note[] = [];
     searchTerm = '';
     filteredNotes: Note[] = [];
@@ -18,8 +20,11 @@ export class Tab1Page {
                 private plt: Platform,
                 private dataService: DataService,
                 private sanitizer: DomSanitizer,
+                editNoteService: EditNoteService,
                 private toastController: ToastController,
-                private navController: NavController) {
+                navController: NavController) {
+
+        super(navController, editNoteService);
         this.plt.ready().then(() => {
             this.loadItems();
         });
@@ -44,7 +49,6 @@ export class Tab1Page {
 
     deleteItem(note: Note) {
         this.storageService.deleteItem(note.id).then(item => {
-            this.showToast('Item removed!');
             this.loadItems();
         });
     }
@@ -56,14 +60,6 @@ export class Tab1Page {
         });
     }
 
-    // Helper
-    async showToast(msg) {
-        const toast = await this.toastController.create({
-            message: msg,
-            duration: 2000
-        });
-        toast.present();
-    }
     clearStorage() {
         this.storageService.clearStorage();
     }
