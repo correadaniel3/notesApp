@@ -49,8 +49,10 @@ export class Tab2Page extends TabsPage {
     }
     loadItems() {
         this.storageService.getItems().then(notes => {
-            this.notes = notes.filter(note => note.archived === true);
-            this.search();
+            if (notes.filter(note => note.archived === true).length !== this.notes.length) {
+                this.notes = notes.filter(note => note.archived === true);
+                this.search();
+            }
         });
     }
 

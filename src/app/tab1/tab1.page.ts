@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StorageService, Note} from '../services/storage.service';
 import {DataService} from '../services/data.service';
 import {Platform, ToastController, NavController} from '@ionic/angular';
@@ -31,7 +31,9 @@ export class Tab1Page extends TabsPage {
     }
 
     ionViewDidEnter() {
-        this.loadItems();
+        this.plt.ready().then(() => {
+            this.loadItems();
+        });
     }
 
     doReorder(ev: any) {
@@ -42,8 +44,10 @@ export class Tab1Page extends TabsPage {
 
     loadItems() {
         this.storageService.getItems().then(notes => {
-            this.notes = notes.filter(note => note.archived === false);
-            this.search();
+            if (notes.filter(note => note.archived === false).length !== this.notes.length) {
+                this.notes = notes.filter(note => note.archived === false);
+                this.search();
+            }
         });
     }
 
