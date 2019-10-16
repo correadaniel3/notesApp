@@ -2,80 +2,88 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 export interface Note {
-    id: number;
-    title: string;
-    description: string;
-    reminder: string;
-    archived: boolean;
-    label: string;
+  id: number;
+  title: string;
+  description: string;
+  reminder: string;
+  archived: boolean;
+  label: string;
 }
 
 const ITEMS_KEY = 'my-notes';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class StorageService {
+  constructor(private storage: Storage) {}
 
-    constructor(private storage: Storage) { }
+  savedNotes: Note[] = [];
 
-    // CREATE
-    addItem(note: Note): Promise<any> {
-        return this.storage.get(ITEMS_KEY).then((notes: Note[]) => {
-            if (notes) {
-                notes.push(note);
-                return this.storage.set(ITEMS_KEY, notes);
-            } else {
-                return this.storage.set(ITEMS_KEY, [note]);
-            }
-        });
+  // CREATE
+  addItem(note: Note): Promise<any> {
+    return this.storage.get(ITEMS_KEY).then((notes: Note[]) => {
+      if (notes) {
+        notes.push(note);
+        this.savedNotes = notes;
+        return this.storage.set(ITEMS_KEY, notes);
+      } else {
+        return this.storage.set(ITEMS_KEY, [note]);
+      }
+    });
+  }
+
+  // READ
+  async getItems() {
+    const notes = await this.storage.get(ITEMS_KEY);
+    if (notes) {
+      this.savedNotes = notes;
+      return notes;
     }
+    return [];
+  }
 
-    // READ
-    getItems(): Promise<Note[]> {
-        return this.storage.get(ITEMS_KEY);
-    }
+  // UPDATE
+  updateItem(note: Note): Promise<any> {
+    return this.storage.get(ITEMS_KEY).then((notes: Note[]) => {
+      if (!notes || notes.length === 0) {
+        return null;
+      }
 
-    // UPDATE
-    updateItem(note: Note): Promise<any> {
-        return this.storage.get(ITEMS_KEY).then((notes: Note[]) => {
-            if (!notes || notes.length === 0) {
-                return null;
-            }
+      const newNotes: Note[] = [];
 
-            const newNotes: Note[] = [];
+      for (const i of notes) {
+        if (i.id === note.id) {
+          newNotes.push(note);
+        } else {
+          newNotes.push(i);
+        }
+      }
+      this.savedNotes = newNotes;
+      return this.storage.set(ITEMS_KEY, newNotes);
+    });
+  }
 
-            for (const i of notes) {
-                if (i.id === note.id) {
-                    newNotes.push(note);
-                } else {
-                    newNotes.push(i);
-                }
-            }
+  // DELETE
+  deleteItem(id: number): Promise<Note> {
+    return this.storage.get(ITEMS_KEY).then((notes: Note[]) => {
+      if (!notes || notes.length === 0) {
+        return null;
+      }
 
-            return this.storage.set(ITEMS_KEY, newNotes);
-        });
-    }
+      const toKeep: Note[] = [];
 
-    // DELETE
-    deleteItem(id: number): Promise<Note> {
-        return this.storage.get(ITEMS_KEY).then((notes: Note[]) => {
-            if (!notes || notes.length === 0) {
-                return null;
-            }
+      for (const i of notes) {
+        if (i.id !== id) {
+          toKeep.push(i);
+        }
+      }
+      this.savedNotes = toKeep;
+      return this.storage.set(ITEMS_KEY, toKeep);
+    });
+  }
 
-            const toKeep: Note[] = [];
-
-            for (const i of notes) {
-                if (i.id !== id) {
-                    toKeep.push(i);
-                }
-            }
-            return this.storage.set(ITEMS_KEY, toKeep);
-        });
-    }
-
-    clearStorage() {
-        return this.storage.clear();
-    }
+  clearStorage() {
+    return this.storage.clear();
+  }
 }

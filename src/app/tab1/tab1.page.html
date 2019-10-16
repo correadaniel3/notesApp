@@ -1,39 +1,56 @@
-
 <ion-content>
-
-  <ion-searchbar [(ngModel)]="searchTerm"  (ionChange)="search()" animated></ion-searchbar>
+  <ion-searchbar (ionChange)="search($event)" animated></ion-searchbar>
 
   <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
-    <ion-item-sliding *ngFor="let note of filteredNotes">
+    <ion-item-sliding
+      *ngFor="
+        let note of storageService.savedNotes
+          | notespipe: false
+          | search: searchText
+      "
+    >
       <ion-item-options side="start">
-        <ion-item-option color="warning" (click)="archive(note)">Archivar</ion-item-option>
+        <ion-item-option color="warning" (click)="archive(note)"
+          >Archivar</ion-item-option
+        >
       </ion-item-options>
 
-        <ion-item (click)="editNote(note)">
-          <ion-label class="ion-text-wrap">
-            <h2>{{note.title}}</h2>
-            <ion-text>
-              <p>{{note.description}}</p>
-            </ion-text>
-            <ion-text color="secondary">
-              <p>{{note.reminder | date:'yyyy MMMM dd H:mm:ss'}}</p>
-            </ion-text>
-            <ion-badge class="note-badge" *ngIf="note.label!=null" [style.background-color]="getLabel(note)"> &nbsp;
-            </ion-badge>
-          </ion-label>
-          <ion-reorder slot="end"></ion-reorder>
-        </ion-item>
+      <ion-item (click)="editNote(note)">
+        <ion-label class="ion-text-wrap">
+          <h2>{{ note.title }}</h2>
+          <ion-text>
+            <p>{{ note.description }}</p>
+          </ion-text>
+          <ion-text color="secondary">
+            <p>{{ note.reminder | date: 'yyyy MMMM dd H:mm:ss' }}</p>
+          </ion-text>
+          <ion-badge
+            class="note-badge"
+            *ngIf="note.label != null"
+            [style.background-color]="getLabel(note)"
+          >
+            &nbsp;
+          </ion-badge>
+        </ion-label>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
 
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="deleteItem(note)">Eliminar</ion-item-option>
+        <ion-item-option color="danger" (click)="deleteItem(note)"
+          >Eliminar</ion-item-option
+        >
       </ion-item-options>
     </ion-item-sliding>
   </ion-reorder-group>
 
-
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="createNote()">
-      <ion-fab-button>
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    (click)="createNote()"
+  >
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

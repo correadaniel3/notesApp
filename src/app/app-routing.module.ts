@@ -6,12 +6,16 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  { path: 'new-note', loadChildren: './new-note/new-note.module#NewNotePageModule' }
+  {
+    path: 'new-note',
+    loadChildren: './new-note/new-note.module#NewNotePageModule'
+  }
 ];
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  declarations: []
 })
 export class AppRoutingModule {}

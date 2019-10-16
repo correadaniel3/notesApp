@@ -1,55 +1,75 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-button (click)="addOrUpdateItem()">Guardar</ion-button>
-        </ion-buttons>
-        <ion-title>{{title}}</ion-title>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="addOrUpdateItem()">Guardar</ion-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-item [hidden]="true">
     <ion-label>Etiqueta</ion-label>
-    <ion-select id="note-label" value="brown" type="alert" okText="Ok" cancelText="Cancelar" [(ngModel)]="newNote.label">
+    <ion-select
+      id="note-label"
+      value="brown"
+      type="alert"
+      okText="Ok"
+      cancelText="Cancelar"
+      [(ngModel)]="newNote.label"
+    >
       <ion-select-option value="#9dd6ca">Verde</ion-select-option>
       <ion-select-option value="#b30417">Rojo</ion-select-option>
       <ion-select-option value="#67a3db">Azul</ion-select-option>
       <ion-select-option value="#733e2f">Marron</ion-select-option>
     </ion-select>
   </ion-item>
-    <div class="create-note-wrp">
-        <div id="note-date-reminder" class="note-date-reminder" [hidden]="showReminder()">
-            <ion-item class="note-date-reminder-item">
-                <ion-icon name="alarm"></ion-icon>
-                <ion-datetime id="note-reminder" class="note-reminder" placeholder="Recordatorio"
-                              displayFormat="MMM DD YYYY HH:mm"
-                              max="2025"
-                              [min]="date"
-                              [(ngModel)]="newNote.reminder"></ion-datetime>
-            </ion-item>
-        </div>
-        <ion-input class="note-input note-title" placeholder="Titulo" [(ngModel)]="newNote.title"></ion-input>
-        <ion-textarea class="note-input note-description" rows="20" placeholder="Descripcion ..."
-                      [(ngModel)]="newNote.description"></ion-textarea>
+  <div class="create-note-wrp">
+    <div
+      id="note-date-reminder"
+      class="note-date-reminder"
+      [hidden]="showReminder()"
+    >
+      <ion-item class="note-date-reminder-item">
+        <ion-icon name="alarm"></ion-icon>
+        <ion-datetime
+          id="note-reminder"
+          class="note-reminder"
+          placeholder="Recordatorio"
+          displayFormat="MMM DD YYYY HH:mm"
+          max="2025"
+          [min]="date"
+          [(ngModel)]="newNote.reminder"
+        ></ion-datetime>
+      </ion-item>
     </div>
+    <ion-input
+      class="note-input note-title"
+      placeholder="Titulo"
+      [(ngModel)]="newNote.title"
+    ></ion-input>
+    <ion-textarea
+      class="note-input note-description"
+      rows="20"
+      placeholder="Descripcion ..."
+      [(ngModel)]="newNote.description"
+    ></ion-textarea>
+  </div>
 
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button (click)="showPicker()">
+        <ion-icon name="alarm"></ion-icon>
+        <ion-label>Recordatorio</ion-label>
+      </ion-tab-button>
 
-    <ion-tabs>
-        <ion-tab-bar slot="bottom">
-            <ion-tab-button (click)="showPicker()">
-                <ion-icon name="alarm"></ion-icon>
-                <ion-label>Recordatorio</ion-label>
-            </ion-tab-button>
-
-            <ion-tab-button (click)="showColorPicker()">
-                <ion-icon [style.color]="getLabel()" name="bookmark"></ion-icon>
-                <ion-label [style.color]="getLabel()">Etiqueta</ion-label>
-            </ion-tab-button>
-        </ion-tab-bar>
-    </ion-tabs>
-
-
+      <ion-tab-button (click)="showColorPicker()">
+        <ion-icon [style.color]="getLabel()" name="bookmark"></ion-icon>
+        <ion-label [style.color]="getLabel()">Etiqueta</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>
