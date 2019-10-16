@@ -21,11 +21,8 @@ export class Tab1Page extends TabsPage {
   filteredNotes: Note[] = [];
   constructor(
     public storageService: StorageService,
-    private plt: Platform,
-    private dataService: DataService,
     private sanitizer: DomSanitizer,
     editNoteService: EditNoteService,
-    private toastController: ToastController,
     navController: NavController
   ) {
     super(navController, editNoteService);

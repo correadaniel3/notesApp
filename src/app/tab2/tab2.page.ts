@@ -23,12 +23,9 @@ export class Tab2Page extends TabsPage {
 
   constructor(
     public storageService: StorageService,
-    private plt: Platform,
-    private dataService: DataService,
     private sanitizer: DomSanitizer,
     editNoteService: EditNoteService,
-    navController: NavController,
-    private toastController: ToastController
+    navController: NavController
   ) {
     super(navController, editNoteService);
   }
